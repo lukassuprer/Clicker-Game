@@ -1,27 +1,33 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ClickManager : MonoBehaviour
 {
-    [SerializeField]private LayerMask cookieMask;
-    public float cookieNumber = 0;
-    private void Update()
+    [SerializeField]private int cookieNumber = 0;
+    [SerializeField]private TextMeshProUGUI cookieMoney;
+    private int autoCookieNumber = 0;
+
+    public void CookieClick()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            if (Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 100, cookieMask)) 
-            {
-                cookieNumber++;
-            }
-            else
-            {
-                Debug.Log("Did not hit");
-            }
-        }
+        Debug.Log("Cookie Clicked");
+        cookieNumber++;
+        cookieMoney.text = cookieNumber.ToString();
+    }
+    
+    public void BuyAutoCookieClick()
+    {
+        Debug.Log("Auto Cookie Clicked");
+        autoCookieNumber++;
+        StartCoroutine(AutoClick());
+    }
+
+    private IEnumerator AutoClick()
+    {
+        yield return new WaitForSeconds(1);
+        cookieNumber += autoCookieNumber;
+        cookieMoney.text = cookieNumber.ToString();
+        StartCoroutine(AutoClick());
     }
 }
