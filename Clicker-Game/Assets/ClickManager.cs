@@ -1,33 +1,32 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ClickManager : MonoBehaviour
 {
-    [SerializeField]private int cookieNumber = 0;
     [SerializeField]private TextMeshProUGUI cookieMoney;
-    private int autoCookieNumber = 0;
+    [SerializeField]private int autoCookieNumber = 0;
+    public int Multiplier = 1;
 
     public void CookieClick()
     {
         Debug.Log("Cookie Clicked");
-        cookieNumber++;
-        cookieMoney.text = cookieNumber.ToString();
+        GameManager.Instance.Money += (1 * Multiplier);
+        cookieMoney.text = GameManager.Instance.Money.ToString();
     }
     
     public void BuyAutoCookieClick()
     {
         Debug.Log("Auto Cookie Clicked");
-        autoCookieNumber++;
+        autoCookieNumber ++;
         StartCoroutine(AutoClick());
     }
 
     private IEnumerator AutoClick()
     {
         yield return new WaitForSeconds(1);
-        cookieNumber += autoCookieNumber;
-        cookieMoney.text = cookieNumber.ToString();
+        GameManager.Instance.Money += autoCookieNumber;
+        cookieMoney.text = GameManager.Instance.Money.ToString();
         StartCoroutine(AutoClick());
     }
-}
+}   
