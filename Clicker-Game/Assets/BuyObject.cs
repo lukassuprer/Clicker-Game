@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class BuyObject : MonoBehaviour
@@ -10,9 +11,15 @@ public class BuyObject : MonoBehaviour
     public int LevelPriceIncrease;
     public int Level = 0;
     public int MaxLevel = 0;
+    [SerializeField]private TextMeshProUGUI button;
 
     [SerializeField] private ClickManager clickManager;
     
+private void Start()
+    {
+        clickManager = FindObjectOfType<ClickManager>();
+        button.text = Name + " " + Price + "/" + Level;
+    }
     public void Buy()
     {
         if (IsUnlocked)
@@ -25,6 +32,7 @@ public class BuyObject : MonoBehaviour
         clickManager.Multiplier += Multiplier;
         Price += LevelPriceIncrease;
         Level++;
+        button.text = Name + " " + Price;
         if (Level >= MaxLevel)
         {
             IsUnlocked = true;
